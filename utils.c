@@ -9,20 +9,35 @@ long	get_time(void)
 	
 }
 
-void	smart_sleep(long time)
+void smart_sleep(t_philo *philo, long time)
 {
-	long start;
-
-	start = get_time();
-	while(get_time() - start < time)
-		usleep(500);
+    long start = get_time();
+    while (get_time() - start < time)
+    {
+        pthread_mutex_lock(&philo->data->death_lock);
+        if (philo->data->simulation_end)
+        {
+            pthread_mutex_unlock(&philo->data->death_lock);
+            break;
+        }
+        pthread_mutex_unlock(&philo->data->death_lock);
+        usleep(100);
+    }
 }
 
-void	print_action(t_philo *philo, char *str)
+
+void print_action(t_philo *philo, char *str)
 {
-	pthread_mutex_lock(&philo->data->print_lock);
-	if(!philo->data->simulation_end)
-		printf("%ld %d %s\n", get_time() - philo->data->start_time,
-			philo->id, str);
-	pthread_mutex_unlock(&philo->data->print_lock);
+    pthread_mutex_lock(&philo->data->print_lock);
+
+    pthread_mutex_lock(&philo->data->death_lock);
+    if (!philo->data->simulation_end)
+    {
+        printf("%ld %d %s\n",
+            get_time() - philo->data->start_time,
+            philo->id, str);
+    }
+    pthread_mutex_unlock(&philo->data->death_lock);
+
+    pthread_mutex_unlock(&philo->data->print_lock);
 }

@@ -31,8 +31,13 @@ void    *monitor_routine(void *arg)
                 pthread_mutex_lock(&data->death_lock);
                 if (!data->simulation_end)
                 {
-                    print_action(&data->philos[i], "died");
                     data->simulation_end = 1;
+
+                    pthread_mutex_lock(&data->print_lock);
+                    printf("%ld %d died\n",
+                        get_time() - data->start_time,
+                        data->philos[i].id);
+                    pthread_mutex_unlock(&data->print_lock);
                 }
                 pthread_mutex_unlock(&data->death_lock);
                 return (NULL);

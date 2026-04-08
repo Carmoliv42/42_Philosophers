@@ -33,6 +33,7 @@ typedef struct s_data
 
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_lock;
+	pthread_mutex_t meal_lock;
 	pthread_mutex_t	death_lock;
 
 	t_philo			*philos;
@@ -40,7 +41,7 @@ typedef struct s_data
 
 /*utils*/
 long	get_time(void);
-void	smart_sleep(long time);
+void 	smart_sleep(t_philo *philo, long time);
 void	print_action(t_philo *philo, char *str);
 
 /*action*/
@@ -54,6 +55,6 @@ int	init_philos(t_data *data);
 void	*philo_routine(void *arg);
 
 /*monitor*/
-void	monitor_routine(void *arg);
+void	*monitor_routine(void *arg);
 
 #endif

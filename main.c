@@ -24,5 +24,7 @@ int main(int ac, char **av)
         i++;
     }
     pthread_join(monitor, NULL);
+    free(data.philos);
+    free(data.forks);
     return (0);
 }
