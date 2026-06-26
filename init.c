@@ -1,30 +1,39 @@
 #include "philo.h"
  
-int init_data(t_data *data, char **av)
+static int	init_mutexes(t_data *data)
 {
-    int i;
+	int	i;
 
-    data->num_philos = atoi(av[1]);
-    data->time_to_die = atol(av[2]);
-    data->time_to_eat = atol(av[3]);
-    data->time_to_sleep = atol(av[4]);
-    data->must_eat = (av[5]) ? atoi(av[5]) : -1;
-    data->simulation_end = 0;
-    data->forks = malloc(sizeof(pthread_mutex_t) * data->num_philos);
-    data->philos = malloc(sizeof(t_philo) * data->num_philos);
-    if (!data->forks || !data->philos)
-        return (1);
-    pthread_mutex_init(&data->print_lock, NULL);
-    pthread_mutex_init(&data->death_lock, NULL);
-    pthread_mutex_init(&data->meal_lock, NULL);
-    i = 0;
-    while (i < data->num_philos)
-    {
+	pthread_mutex_init(&data->print_lock, NULL);
+	pthread_mutex_init(&data->death_lock, NULL);
+	pthread_mutex_init(&data->meal_lock, NULL);
+	i = 0;
+	while (i < data->num_philos)
+	{
 		pthread_mutex_init(&data->forks[i], NULL);
 		i++;
-    }
-    data->start_time = get_time();
-    return (0);
+	}
+	return (0);
+}
+
+int	init_data(t_data *data, char **av)
+{
+	data->num_philos = atoi(av[1]);
+	data->time_to_die = atol(av[2]);
+	data->time_to_eat = atol(av[3]);
+	data->time_to_sleep = atol(av[4]);
+	if (av[5])
+		data->must_eat = atoi(av[5]);
+	else
+		data->must_eat = -1;
+	data->simulation_end = 0;
+	data->forks = malloc(sizeof(pthread_mutex_t) * data->num_philos);
+	data->philos = malloc(sizeof(t_philo) * data->num_philos);
+	if (!data->forks || !data->philos)
+		return (1);
+	init_mutexes(data);
+	data->start_time = get_time();
+	return (0);
 }
  
 int init_philos(t_data *data)
