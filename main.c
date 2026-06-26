@@ -1,11 +1,11 @@
 #include "philo.h"
-
+ 
 int main(int ac, char **av)
 {
     t_data  data;
     pthread_t monitor;
     int i;
-
+ 
     if(ac < 5 || ac > 6)
         return (printf("Error: Wrong arguments\n"),1);
     if(init_data(&data, av) || init_philos(&data))
