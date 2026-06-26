@@ -11,7 +11,6 @@ static int check_philo(t_data *data, int i, int *full_count)
 	if (data->must_eat != -1 && meals >= data->must_eat)
 		(*full_count)++;
 	pthread_mutex_unlock(&data->meal_lock);
- 
 	if (get_time() - last > data->time_to_die)
 	{
 		pthread_mutex_lock(&data->death_lock);
@@ -43,7 +42,6 @@ static int monitor_philos(t_data *data)
 			return (1);
 		i++;
 	}
- 
 	if (data->must_eat != -1 && full_count == data->num_philos)
 	{
 		pthread_mutex_lock(&data->death_lock);
@@ -59,7 +57,6 @@ void	*monitor_routine(void *arg)
 	t_data	*data;
  
 	data = (t_data *)arg;
- 
 	while (1)
 	{
 		pthread_mutex_lock(&data->death_lock);
@@ -72,7 +69,6 @@ void	*monitor_routine(void *arg)
  
 		if (monitor_philos(data))
 			return (NULL);
- 
 		usleep(1000);
 	}
 	return (NULL);

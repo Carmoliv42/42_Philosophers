@@ -18,7 +18,6 @@ void *philo_routine(void *arg)
  
 	if (philo->id % 2 == 0)
 		usleep(500);
- 
 	while (1)
 	{
 		pthread_mutex_lock(&philo->data->death_lock);
@@ -28,7 +27,6 @@ void *philo_routine(void *arg)
 			break;
 		}
 		pthread_mutex_unlock(&philo->data->death_lock);
- 
 		eat(philo);
 		sleep_philo(philo);
 		think(philo);

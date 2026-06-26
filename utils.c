@@ -22,7 +22,6 @@ void smart_sleep(t_philo *philo, long time)
 			return;
 		}
 		pthread_mutex_unlock(&philo->data->death_lock);
- 
 		usleep(100);
 	}
 }
