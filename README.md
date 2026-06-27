@@ -1,60 +1,33 @@
-# 42 Philosophers (philo)
+# 42 Philosophers
 
-A small C implementation of the Dining Philosophers problem using pthreads and mutexes.
+This is my version of the classic Dining Philosophers project.
 
-## Overview
+## What it does
 
-This program simulates the classic concurrency problem "Dining Philosophers".
-Each philosopher alternates between thinking, eating and sleeping. Forks are represented by mutexes. The program monitors philosophers for starvation and stops the simulation when a philosopher dies or when every philosopher has eaten the required number of times (if provided).
+The program creates one thread for each philosopher. They keep thinking, eating, and sleeping until someone dies or until every philosopher eats enough times, if that last argument is given.
 
-## Features
-
-- Thread-per-philosopher implementation using `pthread`.
-- Mutexes for forks, printing and meal/death control.
-- Millisecond-precision timing and a responsive `smart_sleep` that checks for simulation end.
-- Safe ordering when taking forks to avoid deadlocks.
-
-## Files
-
-- `main.c` - program entry, starts philosopher and monitor threads.
-- `init.c` - initializes data structures and mutexes.
-- `routine.c` - philosopher routine (think/eat/sleep).
-- `actions.c` - fork-taking and eating logic.
-- `monitor.c` - monitor thread that detects death or completion.
-- `utils.c` - time helpers, printing, and smart sleeping.
-- `philo.h` - shared types and function declarations.
-- `Makefile` - build rules.
+Forks are handled with mutexes, and there is also a monitor thread that checks if a philosopher died.
 
 ## Build
-
-The project compiles with the included `Makefile`.
-
-To build:
 
 ```sh
 make
 ```
 
-This produces an executable named `philo`.
+This creates the `philo` executable.
 
-To clean build artifacts:
+To clean the project:
 
 ```sh
 make clean
-make fclean   # removes the binary as well
+make fclean
 ```
 
-## Usage
+## Run
 
 ```sh
-./philo number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philo_must_eat]
+./philo number_of_philosophers time_to_die time_to_eat time_to_sleep [must_eat]
 ```
-
-- `number_of_philosophers` (int): how many philosophers (and forks) to create.
-- `time_to_die` (ms): if a philosopher doesn't start eating `time_to_die` ms after their last meal or the simulation start, they die.
-- `time_to_eat` (ms): time a philosopher spends eating.
-- `time_to_sleep` (ms): time a philosopher spends sleeping.
-- `number_of_times_each_philo_must_eat` (optional int): when all philosophers have eaten at least this many times, the simulation stops.
 
 Example:
 
@@ -63,35 +36,45 @@ Example:
 ./philo 4 410 200 200 3
 ```
 
-## Output format
+## Arguments
 
-Each printed line has the form:
+- `number_of_philosophers`: how many philosophers there are.
+- `time_to_die`: time in ms before a philosopher dies without eating.
+- `time_to_eat`: time in ms spent eating.
+- `time_to_sleep`: time in ms spent sleeping.
+- `must_eat` (optional): stop when all philosophers have eaten this many times.
 
+## Project files
+
+- `main.c` - starts everything.
+- `init.c` - sets up the data and mutexes.
+- `routine.c` - philosopher loop.
+- `actions.c` - eating and fork handling.
+- `monitor.c` - checks for death and finish.
+- `utils.c` - time and print helpers.
+- `philo.h` - shared structs and prototypes.
+- `Makefile` - build rules.
+
+## Output
+
+Lines look like this:
+
+```text
+<time> <philosopher_id> <action>
 ```
-<timestamp_ms> <philosopher_id> <action>
-```
 
-Actions include:
+Example actions:
 
-- `has taken a fork` / `has taken a right fork` / `has taken a left fork`
+- `has taken a fork(right/lefth)`
 - `is eating`
 - `is sleeping`
 - `is thinking`
 - `died`
 
-Timestamps are milliseconds since the simulation start.
+## Notes
 
-## Behavior notes
+- The code tries to avoid deadlocks by locking forks in a fixed order.
+- If there is only one philosopher, they will take one fork and eventually die.
+- The project uses `pthread`, so it needs a system with threads support.
 
-- The implementation avoids simple deadlocks by ordering fork acquisition (the code selects which fork to lock first based on pointer comparison) and by staggering start times for even/odd philosophers.
-- If only one philosopher is present, they will take the single fork and wait until they die (this is the expected behavior for the classic problem).
-- The program exits with status `1` for invalid arguments or initialization failures, and `0` on normal termination.
-
-## Requirements
-
-- A POSIX-like system with `gcc`/`cc` and `make`.
-- `pthread` support (the Makefile already adds `-pthread`).
-
-## Author
-
-Created by `carmoliv` (workspace: `Carmoliv42`).
+Made by `carmoliv`.
