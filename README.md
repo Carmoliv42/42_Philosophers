@@ -95,5 +95,3 @@ Timestamps are milliseconds since the simulation start.
 ## Author
 
 Created by `carmoliv` (workspace: `Carmoliv42`).
-
-If you want, I can update the README with examples of expected output for specific scenarios, add a license, or include notes about test cases used during development.
