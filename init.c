@@ -6,11 +6,34 @@
 /*   By: carmoliv <carmoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 15:17:10 by carmoliv          #+#    #+#             */
-/*   Updated: 2026/06/27 15:19:36 by carmoliv         ###   ########.fr       */
+/*   Updated: 2026/06/27 17:16:44 by carmoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+long	philo_atol(const char *str)
+{
+	long	result;
+	int		sign;
+
+	result = 0;
+	sign = 1;
+	while (*str == ' ' || (*str >= 9 && *str <= 13))
+		str++;
+	if (*str == '-' || *str == '+')
+	{
+		if (*str == '-')
+			sign = -1;
+		str++;
+	}
+	while (*str >= '0' && *str <= '9')
+	{
+		result = result * 10 + (*str - '0');
+		str++;
+	}
+	return (result * sign);
+}
 
 static int	init_mutexes(t_data *data)
 {
@@ -30,12 +53,12 @@ static int	init_mutexes(t_data *data)
 
 int	init_data(t_data *data, char **av)
 {
-	data->num_philos = atoi(av[1]);
-	data->time_to_die = atol(av[2]);
-	data->time_to_eat = atol(av[3]);
-	data->time_to_sleep = atol(av[4]);
+	data->num_philos = philo_atol(av[1]);
+	data->time_to_die = philo_atol(av[2]);
+	data->time_to_eat = philo_atol(av[3]);
+	data->time_to_sleep = philo_atol(av[4]);
 	if (av[5])
-		data->must_eat = atoi(av[5]);
+		data->must_eat = philo_atol(av[5]);
 	else
 		data->must_eat = -1;
 	data->simulation_end = 0;

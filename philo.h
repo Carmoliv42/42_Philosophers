@@ -6,7 +6,7 @@
 /*   By: carmoliv <carmoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 15:27:34 by carmoliv          #+#    #+#             */
-/*   Updated: 2026/06/27 15:38:48 by carmoliv         ###   ########.fr       */
+/*   Updated: 2026/06/27 17:17:35 by carmoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	eat(t_philo *philo);
 /*init*/
 int		init_data(t_data *data, char **av);
 int		init_philos(t_data *data);
+long	philo_atol(const char *str);
 
 /*routine*/
 void	*philo_routine(void *arg);
