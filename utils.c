@@ -6,7 +6,7 @@
 /*   By: carmoliv <carmoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 15:41:56 by carmoliv          #+#    #+#             */
-/*   Updated: 2026/06/27 15:43:41 by carmoliv         ###   ########.fr       */
+/*   Updated: 2026/06/27 20:00:22 by carmoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,16 @@ void	smart_sleep(t_philo *philo, long time)
 
 void	print_action(t_philo *philo, char *str)
 {
+	pthread_mutex_lock(&philo->data->death_lock);
+	if (philo->data->simulation_end)
+	{
+		pthread_mutex_unlock(&philo->data->death_lock);
+		return ;
+	}
+	pthread_mutex_unlock(&philo->data->death_lock);
 	pthread_mutex_lock(&philo->data->print_lock);
-	if (!philo->data->simulation_end)
-		printf("%ld %d %s\n",
-			get_time() - philo->data->start_time,
-			philo->id, str);
+	printf("%ld %d %s\n",
+		get_time() - philo->data->start_time,
+		philo->id, str);
 	pthread_mutex_unlock(&philo->data->print_lock);
 }
