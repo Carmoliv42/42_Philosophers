@@ -1,29 +1,32 @@
+*This project has been created as part of the 42 curriculum by `carmoliv`.*
+
 # 42 Philosophers
 
-This is my version of the classic Dining Philosophers project.
+## Description
 
-## What it does
+This project is a simple C version of the classic Dining Philosophers problem.
 
-The program creates one thread for each philosopher. They keep thinking, eating, and sleeping until someone dies or until every philosopher eats enough times, if that last argument is given.
+Each philosopher runs in its own thread and keeps thinking, eating, and sleeping.
+Forks are protected with mutexes, and a monitor thread checks if someone dies or if the simulation can stop because every philosopher ate enough times.
 
-Forks are handled with mutexes, and there is also a monitor thread that checks if a philosopher died.
+## Instructions
 
-## Build
+### Compilation
 
 ```sh
 make
 ```
 
-This creates the `philo` executable.
+This builds the `philo` executable.
 
-To clean the project:
+### Cleaning
 
 ```sh
 make clean
 make fclean
 ```
 
-## Run
+### Execution
 
 ```sh
 ./philo number_of_philosophers time_to_die time_to_eat time_to_sleep [must_eat]
@@ -36,45 +39,24 @@ Example:
 ./philo 4 410 200 200 3
 ```
 
-## Arguments
+### Arguments
 
-- `number_of_philosophers`: how many philosophers there are.
-- `time_to_die`: time in ms before a philosopher dies without eating.
-- `time_to_eat`: time in ms spent eating.
-- `time_to_sleep`: time in ms spent sleeping.
-- `must_eat` (optional): stop when all philosophers have eaten this many times.
+- `number_of_philosophers`: how many philosophers are in the simulation.
+- `time_to_die`: time in milliseconds before a philosopher dies without eating.
+- `time_to_eat`: time in milliseconds spent eating.
+- `time_to_sleep`: time in milliseconds spent sleeping.
+- `must_eat` (optional): stop when every philosopher has eaten this many times.
 
-## Project files
+## Resources
 
-- `main.c` - starts everything.
-- `init.c` - sets up the data and mutexes.
-- `routine.c` - philosopher loop.
-- `actions.c` - eating and fork handling.
-- `monitor.c` - checks for death and finish.
-- `utils.c` - time and print helpers.
-- `philo.h` - shared structs and prototypes.
-- `Makefile` - build rules.
+### References
 
-## Output
+- The Dining Philosophers problem
+- Youtube videos philosophers dinner
+- Mutex and thread basics in C
 
-Lines look like this:
+### AI usage
 
-```text
-<time> <philosopher_id> <action>
-```
-
-Example actions:
-
-- `has taken a fork(right/lefth)`
-- `is eating`
-- `is sleeping`
-- `is thinking`
-- `died`
-
-## Notes
-
-- The code tries to avoid deadlocks by locking forks in a fixed order.
-- If there is only one philosopher, they will take one fork and eventually die.
-- The project uses `pthread`, so it needs a system with threads support.
-
-Made by `carmoliv`.
+AI was used as a learning and development support tool throughout this project.
+Understanding new concepts — AI was used to help understand mutex functions and their practical application in multithreaded programming, including how to properly use pthread_mutex_lock, pthread_mutex_unlock.
+Simultaneous testing — AI assisted in designing and running concurrent test scenarios to validate thread behavior.
