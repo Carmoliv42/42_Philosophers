@@ -1,5 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: carmoliv <carmoliv@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/27 15:17:10 by carmoliv          #+#    #+#             */
+/*   Updated: 2026/06/27 15:19:36 by carmoliv         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
- 
+
 static int	init_mutexes(t_data *data)
 {
 	int	i;
@@ -35,22 +47,22 @@ int	init_data(t_data *data, char **av)
 	data->start_time = get_time();
 	return (0);
 }
- 
-int init_philos(t_data *data)
+
+int	init_philos(t_data *data)
 {
-    int i;
- 
-    i = 0;
-    while (i < data->num_philos)
-    {
-        data->philos[i].id = i + 1;
-        data->philos[i].meals_eaten = 0;
-        data->philos[i].last_meal = data->start_time;
-        data->philos[i].left_fork = &data->forks[i];
-        data->philos[i].right_fork =
-            &data->forks[(i + 1) % data->num_philos];
-        data->philos[i].data = data;
-        i++;
-    }
-    return (0);
+	int	i;
+
+	i = 0;
+	while (i < data->num_philos)
+	{
+		data->philos[i].id = i + 1;
+		data->philos[i].meals_eaten = 0;
+		data->philos[i].last_meal = data->start_time;
+		data->philos[i].left_fork = &data->forks[i];
+		data->philos[i].right_fork
+			= &data->forks[(i + 1) % data->num_philos];
+		data->philos[i].data = data;
+		i++;
+	}
+	return (0);
 }

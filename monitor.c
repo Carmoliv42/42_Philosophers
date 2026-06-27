@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   monitor.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: carmoliv <carmoliv@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/27 15:25:51 by carmoliv          #+#    #+#             */
+/*   Updated: 2026/06/27 15:27:21 by carmoliv         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
- 
-static int check_philo(t_data *data, int i, int *full_count)
+
+static	int	check_philo(t_data *data, int i, int *full_count)
 {
 	long	last;
 	long	meals;
- 
+
 	pthread_mutex_lock(&data->meal_lock);
 	last = data->philos[i].last_meal;
 	meals = data->philos[i].meals_eaten;
@@ -28,12 +40,12 @@ static int check_philo(t_data *data, int i, int *full_count)
 	}
 	return (0);
 }
- 
-static int monitor_philos(t_data *data)
+
+static	int	monitor_philos(t_data *data)
 {
 	int	i;
 	int	full_count;
- 
+
 	i = 0;
 	full_count = 0;
 	while (i < data->num_philos)
@@ -51,11 +63,11 @@ static int monitor_philos(t_data *data)
 	}
 	return (0);
 }
- 
+
 void	*monitor_routine(void *arg)
 {
 	t_data	*data;
- 
+
 	data = (t_data *)arg;
 	while (1)
 	{
@@ -63,10 +75,9 @@ void	*monitor_routine(void *arg)
 		if (data->simulation_end)
 		{
 			pthread_mutex_unlock(&data->death_lock);
-			break;
+			break ;
 		}
 		pthread_mutex_unlock(&data->death_lock);
- 
 		if (monitor_philos(data))
 			return (NULL);
 		usleep(1000);

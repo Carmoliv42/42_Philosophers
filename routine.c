@@ -1,21 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: carmoliv <carmoliv@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/27 15:38:54 by carmoliv          #+#    #+#             */
+/*   Updated: 2026/06/27 15:41:43 by carmoliv         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
- 
-void think(t_philo *philo)
+
+void	think(t_philo *philo)
 {
-    print_action(philo, "is thinking");
-    usleep(500);
+	print_action(philo, "is thinking");
+	usleep(500);
 }
- 
+
 void	sleep_philo(t_philo *philo)
 {
 	print_action(philo, "is sleeping");
 	smart_sleep(philo, philo->data->time_to_sleep);
 }
- 
-void *philo_routine(void *arg)
+
+void	*philo_routine(void *arg)
 {
-	t_philo *philo = (t_philo *)arg;
- 
+	t_philo	*philo;
+
+	philo = (t_philo *)arg;
 	if (philo->id % 2 == 0)
 		usleep(500);
 	while (1)
@@ -24,7 +37,7 @@ void *philo_routine(void *arg)
 		if (philo->data->simulation_end)
 		{
 			pthread_mutex_unlock(&philo->data->death_lock);
-			break;
+			break ;
 		}
 		pthread_mutex_unlock(&philo->data->death_lock);
 		eat(philo);
